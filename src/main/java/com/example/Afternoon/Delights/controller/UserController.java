@@ -75,4 +75,13 @@ public class UserController {
         User createdUser = userService.register(user);
         return ResponseEntity.ok(createdUser);
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> getProfile(@RequestParam String username) {
+        User user = userService.findByUsername(username);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
