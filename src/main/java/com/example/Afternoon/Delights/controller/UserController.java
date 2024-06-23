@@ -7,12 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
+
 @CrossOrigin(
         origins = {"http://localhost:4200"}
 )
 @RestController
 @RequestMapping("/api/users")
+
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -84,4 +87,19 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @PostMapping("/profile/addMoney")
+    public ResponseEntity<User> addMoney(@RequestParam String username, @RequestParam Double amount) {
+        User user = userService.findByUsername(username);
+        if (user != null) {
+            if (user.getMoney() == null) {
+                user.setMoney(0.0);
+            }
+            user.setMoney(user.getMoney() + amount);
+            userService.save(user);
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }
