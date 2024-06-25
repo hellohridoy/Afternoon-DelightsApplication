@@ -11,17 +11,18 @@ import java.time.LocalTime;
 @Data
 @Entity
 public class Member {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer pin;
+    private String pin;
 
     private String name;
 
     private String email;
 
-    private String officialPhone;
+    private String officialPhoneNumber;
 
     private String designation;
 

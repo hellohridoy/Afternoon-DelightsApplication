@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    Member findByPin(Integer pin);
 }

@@ -17,7 +17,7 @@ public class Balance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long pin;
+    private String pin;
 
     private Double balance;
 

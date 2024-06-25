@@ -7,14 +7,18 @@ import lombok.Data;
 @Data
 @Table(name = "users")
 
-public class User {
+public class UserAuth {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    private String password;
-    private String role;
-    private Double money = 0.0;
 
+    private String username;
+
+    private String password;
+
+    private String role;
+
+    private Double money = 0.0;
 
 }
