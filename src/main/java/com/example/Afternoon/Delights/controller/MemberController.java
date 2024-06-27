@@ -39,4 +39,9 @@ public class MemberController {
     public void  deleteMember(@PathVariable Long id) {
         memberService.deleteMember(id);
     }
+
+    @GetMapping("/all-members-pins")
+    public List<String> getAllPins() {
+        return memberService.getAllPins();
+    }
 }

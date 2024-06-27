@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -34,5 +36,11 @@ public class MemberServiceImpl implements MemberService {
 
     public void deleteMember(Long id){
         memberRepository.deleteById(id);
+    }
+
+    public List<String> getAllPins() {
+        return memberRepository.findAll().stream()
+                .map(Member::getPin)
+                .collect(Collectors.toList());
     }
 }

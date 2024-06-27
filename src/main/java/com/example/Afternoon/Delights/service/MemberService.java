@@ -17,4 +17,6 @@ public interface MemberService {
     public Member updateMember(Long id,Member member);
 
     public void deleteMember(Long id);
+
+    public List<String> getAllPins() ;
 }

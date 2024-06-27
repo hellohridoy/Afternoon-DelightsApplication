@@ -36,4 +36,6 @@ public class BalanceServiceImpl implements BalanceService {
     public void deleteBalance(Long id){
         balanceRepository.deleteById(id);
     }
+
+
 }
