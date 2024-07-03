@@ -27,7 +27,7 @@ public class BalanceController {
         return balanceService.getBalanceById(id);
     }
 
-    @PostMapping("/add-members")
+    @PostMapping("/add-balance")
     public Balance addBalance(@RequestBody Balance balance) {
         return balanceService.addBalance(balance);
     }
@@ -40,5 +40,10 @@ public class BalanceController {
     @DeleteMapping("/delete/{id}")
     public void  deleteBalance(@PathVariable Long id) {
         balanceService.deleteBalance(id);
+    }
+
+    @GetMapping("/total")
+    public Double getTotalBalance() {
+        return balanceService.getTotalBalance();
     }
 }

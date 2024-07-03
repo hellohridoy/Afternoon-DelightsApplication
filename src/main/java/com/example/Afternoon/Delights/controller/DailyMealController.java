@@ -1,5 +1,6 @@
 package com.example.Afternoon.Delights.controller;
 
+import com.example.Afternoon.Delights.dto.DailyMealDetailsDTO;
 import com.example.Afternoon.Delights.entity.DailyMeal;
 import com.example.Afternoon.Delights.service.DailyMealService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class DailyMealController {
     }
 
     @PostMapping("/add-meal")
-    public DailyMeal addMeal(@RequestBody DailyMeal dailyMeal) {
-        return dailyMealService.addMeal(dailyMeal);
+    public DailyMeal addMeal(@RequestBody DailyMealDetailsDTO dailyMealDetailsDTO) {
+        return dailyMealService.addMeal(dailyMealDetailsDTO);
     }
 
     @PutMapping("/{id}")

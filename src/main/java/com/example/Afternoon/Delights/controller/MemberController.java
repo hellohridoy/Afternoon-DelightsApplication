@@ -5,7 +5,11 @@ import com.example.Afternoon.Delights.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @CrossOrigin(
         origins = {"http://localhost:4200"}
 )
@@ -41,7 +45,15 @@ public class MemberController {
     }
 
     @GetMapping("/all-members-pins")
-    public List<String> getAllPins() {
-        return memberService.getAllPins();
+    public List<Map<String, String>> getAllPins() {
+        List<String> pins = memberService.getAllPins();
+        List<Map<String, String>> response = pins.stream()
+                .map(pin -> {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("pin", pin);
+                    return map;
+                })
+                .collect(Collectors.toList());
+        return response;
     }
 }

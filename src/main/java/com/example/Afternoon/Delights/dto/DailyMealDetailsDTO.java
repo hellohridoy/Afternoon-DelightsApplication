@@ -1,26 +1,26 @@
 package com.example.Afternoon.Delights.dto;
 
+import com.example.Afternoon.Delights.ENUM.BalanceType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
+
 @Data
 public class DailyMealDetailsDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String item;
+    private List<ParticipantDTO> participants;
+    private Double price;
+    private Double perHeadAmount;
+    private BalanceType balanceType;
 
-    public Timestamp startData;
-
-    public Timestamp endData;
-
-    public String description;
-
-    public Double price;
-
-    public String pin;
+    @Data
+    public static class ParticipantDTO {
+        private String pin;
+    }
 
 }

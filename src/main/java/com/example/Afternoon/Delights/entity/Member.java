@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-import java.time.LocalTime;
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -30,8 +30,8 @@ public class Member {
 
     private String unit;
 
-    private LocalTime createdAt;
+    private Timestamp createdAt;
 
-    private LocalTime updatedAt;
+    private Timestamp updatedAt;
 
 }

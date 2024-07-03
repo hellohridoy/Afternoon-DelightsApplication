@@ -17,4 +17,6 @@ public interface BalanceService {
     public Balance updateBalance(Long id,Balance balance);
 
     public void deleteBalance(Long id);
+
+    public Double getTotalBalance();
 }

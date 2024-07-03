@@ -1,10 +1,13 @@
 package com.example.Afternoon.Delights.service;
 
 import com.example.Afternoon.Delights.entity.Balance;
+import com.example.Afternoon.Delights.entity.DailyMeal;
 import com.example.Afternoon.Delights.repository.BalanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,6 +25,7 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     public Balance addBalance(Balance balance){
+
         return balanceRepository.save(balance);
     }
 
@@ -37,5 +41,9 @@ public class BalanceServiceImpl implements BalanceService {
         balanceRepository.deleteById(id);
     }
 
-
+    public Double getTotalBalance() {
+        return balanceRepository.findAll().stream()
+                .mapToDouble(Balance::getBalance)  // Assuming `price` is a field in the `Balance` entity
+                .sum();
+    }
 }

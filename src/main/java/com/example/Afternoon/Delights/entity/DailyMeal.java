@@ -1,13 +1,12 @@
 package com.example.Afternoon.Delights.entity;
 
 import com.example.Afternoon.Delights.ENUM.BalanceType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 @Entity
 public class DailyMeal {
@@ -16,14 +15,17 @@ public class DailyMeal {
     private Long id;
 
     private String item;
-
-    private String participants;
-
     private Double price;
-
     private Double perHeadAmount;
 
-    private LocalDate createdAt;
+    @ElementCollection
+    @CollectionTable(name = "participant_pins", joinColumns = @JoinColumn(name = "balance_id"))
+    @Column(name = "pin")
+    private List<String> participants;
 
+    @Enumerated(EnumType.STRING)
+    private BalanceType balanceType;
+
+    private LocalDate createdAt;
     private LocalDate updatedAt;
 }
