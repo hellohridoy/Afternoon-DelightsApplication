@@ -2,9 +2,14 @@ package com.example.Afternoon.Delights.controller;
 
 import com.example.Afternoon.Delights.entity.Member;
 import com.example.Afternoon.Delights.service.MemberService;
+import com.example.Afternoon.Delights.service.MemberServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +23,8 @@ import java.util.stream.Collectors;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private MemberServiceImpl memberServiceImpl;
 
     @GetMapping("/all")
     public List<Member> all() {
@@ -55,5 +62,28 @@ public class MemberController {
                 })
                 .collect(Collectors.toList());
         return response;
+    }
+
+    @PostMapping("/{id}/uploadProfilePicture")
+    public ResponseEntity<String> uploadProfilePicture(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        try {
+            String message = memberServiceImpl.uploadProfilePicture(id, file);
+            if ("Member not found.".equals(message)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+            }
+            return ResponseEntity.ok(message);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload profile picture.");
+        }
+    }
+
+    @GetMapping("/{id}/profilePicture")
+    public ResponseEntity<byte[]> getProfilePicture(@PathVariable Long id) {
+        byte[] profilePicture = memberServiceImpl.getProfilePicture(id);
+        if (profilePicture != null) {
+            return ResponseEntity.ok(profilePicture);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

@@ -1,9 +1,6 @@
 package com.example.Afternoon.Delights.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -33,5 +30,8 @@ public class Member {
     private Timestamp createdAt;
 
     private Timestamp updatedAt;
+
+    @Lob
+    private byte[] profilePicture;
 
 }
