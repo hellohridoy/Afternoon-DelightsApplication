@@ -1,5 +1,6 @@
 package com.example.Afternoon.Delights.controller;
 
+import com.example.Afternoon.Delights.dto.BalanceDTO;
 import com.example.Afternoon.Delights.entity.Balance;
 import com.example.Afternoon.Delights.service.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +47,20 @@ public class BalanceController {
     public Double getTotalBalance() {
         return balanceService.getTotalBalance();
     }
+
+    @GetMapping("/history/{pin}")
+    public List<BalanceDTO> getBalanceHistory(@PathVariable String pin) {
+        return balanceService.getBalanceHistory(pin);
+    }
+
+    @GetMapping("/history")
+    public List<BalanceDTO> getAllMemberBalanceHistory() {
+        return balanceService.getAllMemberBalanceHistory();
+    }
+
+    @GetMapping("/negative")
+    public List<Balance> getMembersWithNegativeBalance() {
+        return balanceService.getMembersWithNegativeBalance();
+    }
+
 }

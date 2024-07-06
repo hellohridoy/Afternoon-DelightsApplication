@@ -1,5 +1,6 @@
 package com.example.Afternoon.Delights.service;
 
+import com.example.Afternoon.Delights.dto.BalanceDTO;
 import com.example.Afternoon.Delights.entity.Balance;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +20,14 @@ public interface BalanceService {
     public void deleteBalance(Long id);
 
     public Double getTotalBalance();
+
+    public List<BalanceDTO> getBalanceHistory(String pin);
+
+    private BalanceDTO convertToDTO(Balance balance) {
+        return null;
+    }
+
+    List<BalanceDTO> getAllMemberBalanceHistory();
+
+    public List<Balance> getMembersWithNegativeBalance() ;
 }
