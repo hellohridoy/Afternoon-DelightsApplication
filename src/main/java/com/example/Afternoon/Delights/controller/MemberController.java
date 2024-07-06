@@ -86,4 +86,8 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+    @GetMapping("/search")
+    public List<Member> searchMembers(@RequestParam String keyword) {
+        return memberServiceImpl.searchMembers(keyword);
+    }
 }

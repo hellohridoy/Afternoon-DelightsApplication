@@ -62,4 +62,7 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> optionalMember = memberRepository.findById(id);
         return optionalMember.map(Member::getProfilePicture).orElse(null);
     }
+    public List<Member> searchMembers(String keyword) {
+        return memberRepository.searchMembers(keyword);
+    }
 }
