@@ -4,9 +4,13 @@ import com.example.Afternoon.Delights.dto.BalanceDTO;
 import com.example.Afternoon.Delights.entity.Balance;
 import com.example.Afternoon.Delights.service.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @CrossOrigin(
         origins = {"http://localhost:4200"}
 )
@@ -61,6 +65,14 @@ public class BalanceController {
     @GetMapping("/negative")
     public List<Balance> getMembersWithNegativeBalance() {
         return balanceService.getMembersWithNegativeBalance();
+    }
+
+    @GetMapping("/{id}/amount-per-head")
+    public ResponseEntity<Map<String, Double>> getAmountPerHead(@PathVariable Long id) {
+        Double amountPerHead = balanceService.getAmountPerHead(id);
+        Map<String, Double> response = new HashMap<>();
+        response.put("amountPerHead", amountPerHead);
+        return ResponseEntity.ok(response);
     }
 
 }

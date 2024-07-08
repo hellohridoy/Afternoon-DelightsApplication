@@ -3,6 +3,7 @@ package com.example.Afternoon.Delights.service;
 import com.example.Afternoon.Delights.dto.BalanceDTO;
 import com.example.Afternoon.Delights.entity.Balance;
 import com.example.Afternoon.Delights.repository.BalanceRepository;
+import com.example.Afternoon.Delights.repository.DailyMealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Autowired
     private BalanceRepository balanceRepository;
+    @Autowired
+    private DailyMealRepository dailyMealRepository;
 
     public List<Balance> getAllBalance(){
         return balanceRepository.findAll();
@@ -69,5 +72,19 @@ public class BalanceServiceImpl implements BalanceService {
 
     public List<Balance> getMembersWithNegativeBalance() {
         return balanceRepository.findMembersWithNegativeBalance();
+    }
+
+    public int getParticipantsCount(Long id) {
+        // Implementation to get the number of participants for a specific id
+        return dailyMealRepository.countParticipantsByIdNative(id);
+    }
+
+    public Double getAmountPerHead(Long id) {
+        Double totalBalance = getTotalBalance();
+        int participantCount = getParticipantsCount(id);
+        if (participantCount == 0) {
+            return 0.0; // Avoid division by zero
+        }
+        return totalBalance / participantCount;
     }
 }

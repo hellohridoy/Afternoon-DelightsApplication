@@ -3,13 +3,17 @@ package com.example.Afternoon.Delights.service;
 import com.example.Afternoon.Delights.dto.DailyMealDetailsDTO;
 import com.example.Afternoon.Delights.entity.DailyMeal;
 import com.example.Afternoon.Delights.repository.DailyMealRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.unit.DataUnit;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class DailyMealServiceImpl implements DailyMealService {
@@ -53,6 +57,13 @@ public class DailyMealServiceImpl implements DailyMealService {
     @Override
     public void deleteMeal(Long id) {
 
+    }
+
+    public int getParticipantsCount(Long id) {
+        DailyMeal entity = dailyMealRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
+
+        return entity.getParticipants().size();
     }
 }
 

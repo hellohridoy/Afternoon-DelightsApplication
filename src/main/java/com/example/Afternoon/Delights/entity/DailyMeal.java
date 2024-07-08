@@ -3,6 +3,8 @@ package com.example.Afternoon.Delights.entity;
 import com.example.Afternoon.Delights.ENUM.BalanceType;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,6 +28,9 @@ public class DailyMeal {
     @Enumerated(EnumType.STRING)
     private BalanceType balanceType;
 
+    @CreationTimestamp
     private LocalDate createdAt;
+
+    @UpdateTimestamp
     private LocalDate updatedAt;
 }

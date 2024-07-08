@@ -4,6 +4,7 @@ import com.example.Afternoon.Delights.dto.DailyMealDetailsDTO;
 import com.example.Afternoon.Delights.entity.DailyMeal;
 import com.example.Afternoon.Delights.service.DailyMealService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,5 +42,17 @@ public class DailyMealController {
     @DeleteMapping("/delete/{id}")
     public void  deleteMeal(@PathVariable Long id) {
         dailyMealService.deleteMeal(id);
+    }
+
+    @GetMapping("/{id}/participant-count")
+    public ResponseEntity<Integer> getParticipantCount(@PathVariable Long id) {
+        int count = dailyMealService.getParticipantsCount(id);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/{id}/amount-per-head")
+    public ResponseEntity<Double> getAmountPerHead(@PathVariable Long id) {
+        Double amountPerHead = (double) dailyMealService.getParticipantsCount(id);
+        return ResponseEntity.ok(amountPerHead);
     }
 }

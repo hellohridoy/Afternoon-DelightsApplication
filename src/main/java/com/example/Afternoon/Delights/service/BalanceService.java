@@ -30,4 +30,8 @@ public interface BalanceService {
     List<BalanceDTO> getAllMemberBalanceHistory();
 
     public List<Balance> getMembersWithNegativeBalance() ;
+
+    public int getParticipantsCount(Long id) ;
+
+    public Double getAmountPerHead(Long id) ;
 }

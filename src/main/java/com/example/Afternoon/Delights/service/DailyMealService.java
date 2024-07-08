@@ -21,4 +21,6 @@ public interface DailyMealService {
     public DailyMeal updateMeal(Long id, DailyMeal dailyMeal);
 
     public void deleteMeal(Long id);
+
+    int getParticipantsCount(Long id);
 }
