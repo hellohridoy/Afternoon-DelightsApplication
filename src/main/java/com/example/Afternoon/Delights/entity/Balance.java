@@ -29,4 +29,5 @@ public class Balance {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
 }

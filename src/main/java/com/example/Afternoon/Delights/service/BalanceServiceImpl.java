@@ -87,4 +87,8 @@ public class BalanceServiceImpl implements BalanceService {
         }
         return totalBalance / participantCount;
     }
+
+//    public List<Balance> getBalancesByMemberId(Long memberId) {
+//        return balanceRepository.findByMemberId(memberId);
+//    }
 }

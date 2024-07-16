@@ -33,4 +33,8 @@ public class DailyMeal {
 
     @UpdateTimestamp
     private LocalDate updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 }

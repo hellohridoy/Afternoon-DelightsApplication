@@ -1,6 +1,10 @@
 package com.example.Afternoon.Delights.controller;
 
+import com.example.Afternoon.Delights.entity.BalanceHistory;
+import com.example.Afternoon.Delights.entity.MealHistory;
 import com.example.Afternoon.Delights.entity.Member;
+import com.example.Afternoon.Delights.service.BalanceHistoryService;
+import com.example.Afternoon.Delights.service.MealHistoryService;
 import com.example.Afternoon.Delights.service.MemberService;
 import com.example.Afternoon.Delights.service.MemberServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,12 @@ public class MemberController {
     @Autowired
     private MemberServiceImpl memberServiceImpl;
 
+    @Autowired
+    private BalanceHistoryService balanceHistoryService;
+
+    @Autowired
+    private MealHistoryService mealHistoryService;
+
     @GetMapping("/all")
     public List<Member> all() {
         return memberService.getAllMembers();
@@ -37,9 +47,23 @@ public class MemberController {
     }
 
     @PostMapping("/add-members")
-    public Member addMembers(@RequestBody Member member) {
-        return memberService.addMember(member);
+    public ResponseEntity<Member> addMember(@RequestParam("pin") String pin,
+                                            @RequestParam("name") String name,
+                                            @RequestParam("email") String email,
+                                            @RequestParam("officialPhoneNumber") String officialPhoneNumber,
+                                            @RequestParam("designation") String designation,
+                                            @RequestParam("departments") String departments,
+                                            @RequestParam("unit") String unit,
+                                            @RequestParam("balance") Double balance,
+                                            @RequestParam("profileImage") MultipartFile profileImage) {
+        try {
+            Member member = memberService.addMember(pin, name, email, officialPhoneNumber, designation, departments, unit, balance, profileImage);
+            return ResponseEntity.ok(member);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     @PutMapping("/{id}")
     public Member updateMember(@PathVariable Long id, @RequestBody Member member) {
@@ -90,4 +114,20 @@ public class MemberController {
     public List<Member> searchMembers(@RequestParam String keyword) {
         return memberServiceImpl.searchMembers(keyword);
     }
+
+
+
+    @GetMapping("/{id}/meal-history")
+    public ResponseEntity<List<MealHistory>> getMealHistoryForMember(@PathVariable Long id) {
+        try {
+            List<MealHistory> mealHistory = mealHistoryService.getMealHistoryForMember(id);
+            return ResponseEntity.ok(mealHistory);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
+
 }

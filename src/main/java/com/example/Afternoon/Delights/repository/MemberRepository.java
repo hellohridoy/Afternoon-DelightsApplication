@@ -7,9 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findByPin(String pin);
+
+
     @Query("SELECT m FROM Member m WHERE " +
             "(LOWER(m.pin) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(m.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +

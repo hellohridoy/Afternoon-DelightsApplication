@@ -1,12 +1,16 @@
 package com.example.Afternoon.Delights.service;
 
+import com.example.Afternoon.Delights.entity.BalanceHistory;
 import com.example.Afternoon.Delights.entity.Member;
+import com.example.Afternoon.Delights.repository.BalanceHistoryRepository;
 import com.example.Afternoon.Delights.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,6 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class MemberServiceImpl implements MemberService {
 
+    @Autowired
+    private BalanceHistoryRepository balanceHistoryRepository;
     @Autowired
     private MemberRepository memberRepository;
 
@@ -65,4 +71,28 @@ public class MemberServiceImpl implements MemberService {
     public List<Member> searchMembers(String keyword) {
         return memberRepository.searchMembers(keyword);
     }
+
+    public Member addMember(String pin, String name, String email, String officialPhoneNumber, String designation, String departments, String unit, Double balance, MultipartFile profileImage) throws IOException {
+        Member member = new Member();
+        member.setPin(pin);
+        member.setName(name);
+        member.setEmail(email);
+        member.setOfficialPhoneNumber(officialPhoneNumber);
+        member.setDesignation(designation);
+        member.setDepartments(departments);
+        member.setUnit(unit);
+        member.setAddInitialValance(balance);
+        member.setProfilePicture(profileImage.getBytes());
+        member.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        member.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+
+        return memberRepository.save(member);
+    }
+
+
+
+    public Optional<Member> getMemberByPin(String pin) {
+        return memberRepository.findByPin(pin);
+    }
+
 }
