@@ -2,6 +2,8 @@ package com.example.Afternoon.Delights.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
@@ -16,10 +18,13 @@ public class BalanceHistory {
 
     private String pin;
 
-    private Timestamp transactionDate;
+    private Double amount;  //private List<Double> amount;
 
-    private Double amount;
+    @CreationTimestamp
+    private Timestamp createdAt;
 
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
 
 }

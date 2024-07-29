@@ -29,7 +29,7 @@ public class DailyMealServiceImpl implements DailyMealService {
 
     @Override
     public DailyMeal addMeal(DailyMeal dailyMeal) {
-        return null;
+        return dailyMealRepository.save(dailyMeal);
     }
 
     @Override
@@ -49,12 +49,16 @@ public class DailyMealServiceImpl implements DailyMealService {
 
     @Override
     public DailyMeal updateMeal(Long id, DailyMeal dailyMeal) {
+        if (dailyMealRepository.existsById(id)){
+            dailyMeal.setId(id);
+            return dailyMealRepository.save(dailyMeal);
+        }
         return null;
     }
 
     @Override
     public void deleteMeal(Long id) {
-
+        dailyMealRepository.deleteById(id);
     }
 
     public int getParticipantsCount(Long id) {

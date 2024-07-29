@@ -18,5 +18,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "(LOWER(m.pin) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(m.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(m.officialPhoneNumber) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+
     List<Member> searchMembers(@Param("keyword") String keyword);
 }

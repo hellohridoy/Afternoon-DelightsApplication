@@ -20,4 +20,10 @@ public class MemberSelection {
 
     private Boolean selected;
 
+    private String foodItem;
+
+    private Double price;
+
+
+
 }
