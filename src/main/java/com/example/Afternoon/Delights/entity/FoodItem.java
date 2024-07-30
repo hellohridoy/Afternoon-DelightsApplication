@@ -22,7 +22,7 @@ public class FoodItem {
 
     private Double amount;
 
-    private Timestamp createdAt;
+    private String date;
 
 
 

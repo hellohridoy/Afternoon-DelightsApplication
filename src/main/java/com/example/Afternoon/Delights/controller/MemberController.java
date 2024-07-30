@@ -36,6 +36,11 @@ public class MemberController {
     @Autowired
     private MealHistoryService mealHistoryService;
 
+    @GetMapping("/isPinUnique/{pin}")
+    public ResponseEntity<Boolean> isPinUnique(@PathVariable String pin) {
+        return ResponseEntity.ok(memberService.isPinUnique(pin));
+    }
+
     @GetMapping("/all")
     public List<Member> all() {
         return memberService.getAllMembers();

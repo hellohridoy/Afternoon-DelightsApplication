@@ -25,6 +25,7 @@ public interface MemberService {
 
     Member addMember(String pin, String name, String email, String officialPhoneNumber, String designation, String departments, String unit, Double balance, MultipartFile profileImage) throws IOException;
 
+    public boolean isPinUnique(String pin);
 
 
 }

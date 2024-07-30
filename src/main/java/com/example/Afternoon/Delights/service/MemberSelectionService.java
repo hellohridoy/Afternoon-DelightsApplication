@@ -12,11 +12,20 @@ public class MemberSelectionService {
     @Autowired
     private MemberSelectionRepository memberSelectionRepository;
 
-    public List<MemberSelection> findAll() {
+
+
+    public List<MemberSelection> getAllMemberSelections() {
         return memberSelectionRepository.findAll();
     }
 
-    public MemberSelection save(MemberSelection memberSelection) {
+    public MemberSelection saveMemberSelection(MemberSelection memberSelection) {
         return memberSelectionRepository.save(memberSelection);
+    }
+
+    public List<MemberSelection> saveAllMemberSelections(List<MemberSelection> memberSelections) {
+        return memberSelectionRepository.saveAll(memberSelections);
+    }
+    public List<MemberSelection> getSelectedItemsForDate(String date) {
+        return memberSelectionRepository.findByDateAndSelectedTrue(date);
     }
 }

@@ -81,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
         member.setDesignation(designation);
         member.setDepartments(departments);
         member.setUnit(unit);
-        member.setAddInitialValance(balance);
+        member.setAddInitialBalance(balance);
         member.setProfilePicture(profileImage.getBytes());
         member.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         member.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
@@ -89,6 +89,10 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.save(member);
     }
 
+    @Override
+    public boolean isPinUnique(String pin) {
+        return memberRepository.existsByPin(pin);
+    }
 
 
     public Optional<Member> getMemberByPin(String pin) {

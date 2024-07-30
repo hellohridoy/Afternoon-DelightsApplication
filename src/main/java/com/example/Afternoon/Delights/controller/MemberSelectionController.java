@@ -13,16 +13,30 @@ import java.util.List;
 @RequestMapping("/api/member-selections")
 @CrossOrigin(origins = "http://localhost:4200") // Adjust the origin as needed
 public class MemberSelectionController {
+
     @Autowired
     private MemberSelectionService memberSelectionService;
 
     @GetMapping
-    public List<MemberSelection> findAll() {
-        return memberSelectionService.findAll();
+    public ResponseEntity<List<MemberSelection>> getAllMemberSelections() {
+        List<MemberSelection> selections = memberSelectionService.getAllMemberSelections();
+        return ResponseEntity.ok(selections);
     }
 
     @PostMapping
-    public MemberSelection save(@RequestBody MemberSelection memberSelection) {
-        return memberSelectionService.save(memberSelection);
+    public ResponseEntity<MemberSelection> saveMemberSelection(@RequestBody MemberSelection memberSelection) {
+        MemberSelection savedSelection = memberSelectionService.saveMemberSelection(memberSelection);
+        return ResponseEntity.ok(savedSelection);
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<List<MemberSelection>> saveAllMemberSelections(@RequestBody List<MemberSelection> memberSelections) {
+        List<MemberSelection> savedSelections = memberSelectionService.saveAllMemberSelections(memberSelections);
+        return ResponseEntity.ok(savedSelections);
+    }
+
+    @GetMapping("/pin-are-present-by-date")
+    public List<MemberSelection> getSelectedItemsForDate(@RequestParam String date) {
+        return memberSelectionService.getSelectedItemsForDate(date);
     }
 }

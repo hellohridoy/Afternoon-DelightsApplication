@@ -27,24 +27,10 @@ public class FoodItemController {
         return foodItemService.findAll();
     }
 
-
     @PostMapping("/save-item-cost")
     public FoodItem save(@RequestBody FoodItem foodItem) {
         return foodItemService.save(foodItem);
     }
-
-
-    @PutMapping("/update-item-cost/{id}")
-    public FoodItem updateFoodItem(@PathVariable Long id, @RequestBody FoodItem updatedFoodItem) {
-        Optional<FoodItem> existingFoodItemOptional = foodItemRepository.findById(id);
-        if (existingFoodItemOptional.isPresent()) {
-            FoodItem existingFoodItem = existingFoodItemOptional.get();
-            existingFoodItem.setDescription(updatedFoodItem.getDescription());
-            existingFoodItem.setAmount(updatedFoodItem.getAmount());
-        }
-        return foodItemRepository.save(updatedFoodItem);
-    }
-
 
     @GetMapping("/paginated-food-items")
     public Page<FoodItem> getFoodItems(

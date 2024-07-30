@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    boolean existsByPin(String pin);
     Optional<Member> findByPin(String pin);
 
 
