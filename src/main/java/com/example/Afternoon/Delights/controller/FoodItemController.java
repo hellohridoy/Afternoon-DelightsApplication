@@ -38,4 +38,9 @@ public class FoodItemController {
             @RequestParam(defaultValue = "7") int size) {
         return foodItemService.getFoodItems(page, size);
     }
+
+    @GetMapping("/total-cost")
+    public Double getTotalCostByDate(@RequestParam String date) {
+        return foodItemService.getTotalCostByDate(date);
+    }
 }

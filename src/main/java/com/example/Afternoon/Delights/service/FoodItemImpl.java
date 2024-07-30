@@ -27,4 +27,10 @@ public class FoodItemImpl implements FoodItemService {
     public Page<FoodItem> getFoodItems(int page, int size) {
         return foodItemRepository.findAll(PageRequest.of(page, size));
     }
+
+    @Override
+    public Double getTotalCostByDate(String date) {
+        Double totalCost = foodItemRepository.findTotalCostByDate(date);
+        return totalCost != null ? totalCost : 0.0;
+    }
 }

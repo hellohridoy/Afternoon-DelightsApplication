@@ -23,4 +23,6 @@ public interface FoodItemService {
 
 
     public Page<FoodItem> getFoodItems(int page, int size);
+
+    public Double getTotalCostByDate(String date);
 }

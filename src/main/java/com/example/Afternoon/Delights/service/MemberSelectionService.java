@@ -28,4 +28,13 @@ public class MemberSelectionService {
     public List<MemberSelection> getSelectedItemsForDate(String date) {
         return memberSelectionRepository.findByDateAndSelectedTrue(date);
     }
+
+    public List<MemberSelection> getSelectedMembersByDate(String date) {
+        return memberSelectionRepository.findByDateAndSelected(date, true);
+    }
+
+    public List<String> getSelectedPinsByDate(String date) {
+        return memberSelectionRepository.findPinsByDateAndSelected(date);
+    }
+
 }

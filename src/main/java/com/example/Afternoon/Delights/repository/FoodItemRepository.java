@@ -14,4 +14,6 @@ import java.util.Optional;
 @Repository
 public interface FoodItemRepository extends JpaRepository<FoodItem,Long> , PagingAndSortingRepository<FoodItem,Long>
 {
+    @Query("SELECT SUM(fi.amount) FROM FoodItem fi WHERE fi.date = :date")
+    Double findTotalCostByDate(@Param("date") String date);
 }

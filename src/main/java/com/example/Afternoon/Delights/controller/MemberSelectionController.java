@@ -39,4 +39,16 @@ public class MemberSelectionController {
     public List<MemberSelection> getSelectedItemsForDate(@RequestParam String date) {
         return memberSelectionService.getSelectedItemsForDate(date);
     }
+
+//
+//    @GetMapping("/by-date")
+//    public List<MemberSelection> getSelectedMembersByDate(@RequestParam String date) {
+//        return memberSelectionService.getSelectedMembersByDate(date);
+//    }
+
+    @GetMapping("/pins-by-date")
+    public List<String> getSelectedPinsByDate(@RequestParam String date) {
+        return memberSelectionService.getSelectedPinsByDate(date);
+    }
+
 }
