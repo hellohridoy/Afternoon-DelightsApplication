@@ -4,10 +4,13 @@ import com.example.Afternoon.Delights.dto.BalanceDTO;
 import com.example.Afternoon.Delights.entity.Balance;
 import com.example.Afternoon.Delights.repository.BalanceRepository;
 import com.example.Afternoon.Delights.repository.DailyMealRepository;
+import com.example.Afternoon.Delights.repository.FoodItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,6 +20,8 @@ public class BalanceServiceImpl implements BalanceService {
     private BalanceRepository balanceRepository;
     @Autowired
     private DailyMealRepository dailyMealRepository;
+    @Autowired
+    private FoodItemRepository foodItemRepository;
 
     public List<Balance> getAllBalance(){
         return balanceRepository.findAll();
@@ -86,6 +91,29 @@ public class BalanceServiceImpl implements BalanceService {
             return 0.0; // Avoid division by zero
         }
         return totalBalance / participantCount;
+    }
+
+    private final Map<String, Double> cache = new ConcurrentHashMap<>();
+
+    public Double getTotalCost(String date) {
+        // Check cache first
+        if (cache.containsKey(date)) {
+            return cache.get(date);
+        }
+
+        // Query the database if not present in cache
+        Double totalAmount = foodItemRepository.findTotalCostByDate(date);
+        if (totalAmount == null) {
+            totalAmount = 0.0;
+        }
+
+        // Store in cache
+        cache.put(date, totalAmount);
+        return totalAmount;
+    }
+
+    public Double getCachedTotalCost(String date) {
+        return cache.getOrDefault(date, 0.0);
     }
 
 //    public List<Balance> getBalancesByMemberId(Long memberId) {

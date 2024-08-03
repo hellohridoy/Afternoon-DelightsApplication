@@ -2,12 +2,15 @@ package com.example.Afternoon.Delights.controller;
 
 import com.example.Afternoon.Delights.entity.FoodItem;
 import com.example.Afternoon.Delights.repository.FoodItemRepository;
+import com.example.Afternoon.Delights.service.BalanceServiceImpl;
 import com.example.Afternoon.Delights.service.FoodItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +24,8 @@ public class FoodItemController {
 
     @Autowired
     private FoodItemService foodItemService;
+    @Autowired
+    private BalanceServiceImpl balanceServiceImpl;
 
     @GetMapping("/get-item-cost")
     public List<FoodItem> findAll() {
@@ -39,8 +44,19 @@ public class FoodItemController {
         return foodItemService.getFoodItems(page, size);
     }
 
-    @GetMapping("/total-cost")
-    public Double getTotalCostByDate(@RequestParam String date) {
-        return foodItemService.getTotalCostByDate(date);
+    @GetMapping("/totalCost")
+    public Map<String, Double> getTotalCost(@RequestParam String date) {
+        Double totalAmount = foodItemService.getTotalCostByDate(date);
+        Map<String, Double> response = new HashMap<>();
+        response.put("totalForDate", totalAmount != null ? totalAmount : 0.0);
+        return response;
+    }
+
+    @GetMapping("/cachedTotalCost")
+    public Map<String, Double> getCachedTotalCost(@RequestParam String date) {
+        Double totalAmount = balanceServiceImpl.getCachedTotalCost(date);
+        Map<String, Double> response = new HashMap<>();
+        response.put("totalForDate", totalAmount);
+        return response;
     }
 }

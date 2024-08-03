@@ -8,12 +8,13 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FoodItemRepository extends JpaRepository<FoodItem,Long> , PagingAndSortingRepository<FoodItem,Long>
-{
+public interface FoodItemRepository extends JpaRepository<FoodItem, Long> {
+
     @Query("SELECT SUM(fi.amount) FROM FoodItem fi WHERE fi.date = :date")
-    Double findTotalCostByDate(@Param("date") String date);
+    Double findTotalCostByDate(@Param("date") String date);  // Changed to LocalDate
 }

@@ -5,7 +5,10 @@ import com.example.Afternoon.Delights.repository.MemberSelectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MemberSelectionService {
@@ -32,9 +35,25 @@ public class MemberSelectionService {
     public List<MemberSelection> getSelectedMembersByDate(String date) {
         return memberSelectionRepository.findByDateAndSelected(date, true);
     }
+    public List<Map<String, Object>> getSelectedMemberSelectionWithAmount(String date) {
+        List<Object[]> results = memberSelectionRepository.findSelectedMemberSelectionWithAmountByDate(date);
+        Long activePinCount = memberSelectionRepository.countActivePinsByDate(date);
 
-    public List<String> getSelectedPinsByDate(String date) {
-        return memberSelectionRepository.findPinsByDateAndSelected(date);
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        for (Object[] result : results) {
+            MemberSelection memberSelection = (MemberSelection) result[0];
+            Double amount = (Double) result[1];
+            Double amountPerHead = activePinCount > 0 ? amount / activePinCount : 0.0;
+
+            Map<String, Object> selectionMap = new HashMap<>();
+            selectionMap.put("id", memberSelection.getId());
+            selectionMap.put("pin", memberSelection.getPin());
+            selectionMap.put("date", memberSelection.getDate());
+            selectionMap.put("amount", amount);
+            selectionMap.put("amountPerHead", amountPerHead);
+            response.add(selectionMap);
+        }
+        return response;
     }
-
 }

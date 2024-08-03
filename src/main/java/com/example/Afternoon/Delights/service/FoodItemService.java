@@ -17,10 +17,7 @@ public interface FoodItemService {
 
     public List<FoodItem> findAll();
 
-
-
     public FoodItem save(FoodItem foodItem);
-
 
     public Page<FoodItem> getFoodItems(int page, int size);
 

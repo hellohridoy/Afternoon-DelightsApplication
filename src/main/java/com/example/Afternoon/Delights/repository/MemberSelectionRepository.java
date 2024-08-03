@@ -13,7 +13,17 @@ public interface MemberSelectionRepository extends JpaRepository<MemberSelection
 
     List<MemberSelection> findByDateAndSelectedTrue(String date);
     List<MemberSelection> findByDateAndSelected(String date, Boolean selected);
-    @Query("SELECT ms.pin FROM MemberSelection ms WHERE ms.date = :date AND ms.selected = true")
-    List<String> findPinsByDateAndSelected(@Param("date") String date);
+//    @Query("SELECT ms.pin FROM MemberSelection ms WHERE ms.date = :date AND ms.selected = true")
+//    List<String> findPinsByDateAndSelected(@Param("date") String date);
+//    @Query("SELECT ms, fi.amount FROM MemberSelection ms JOIN ms.foodItem fi")
+//    List<Object[]> findMemberSelectionWithAmount();
+
+
+    @Query("SELECT ms, fi.amount FROM MemberSelection ms JOIN ms.foodItem fi WHERE ms.date = :date AND ms.selected = true")
+    List<Object[]> findSelectedMemberSelectionWithAmountByDate(@Param("date") String date);
+
+    @Query("SELECT COUNT(ms) FROM MemberSelection ms WHERE ms.date = :date AND ms.selected = true")
+    Long countActivePinsByDate(@Param("date") String date);
 }
+
 

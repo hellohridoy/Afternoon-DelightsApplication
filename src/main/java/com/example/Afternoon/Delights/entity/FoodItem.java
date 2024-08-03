@@ -1,14 +1,17 @@
 package com.example.Afternoon.Delights.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -18,12 +21,14 @@ public class FoodItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String description;
+    private String name;
 
     private Double amount;
 
-    private String date;
+    @Column(name = "date")
+    @CreationTimestamp
+    private LocalDate date;  // Changed to LocalDate
 
-
-
+    // Getters and setters
 }
+
