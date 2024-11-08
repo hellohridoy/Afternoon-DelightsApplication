@@ -1,12 +1,13 @@
 package com.example.Afternoon.Delights.service;
 
-import com.example.Afternoon.Delights.entity.BalanceHistory;
+import com.example.Afternoon.Delights.dao.MemberDashBoardDao;
+import com.example.Afternoon.Delights.dto.MemberDashBoardStatusDto;
+import com.example.Afternoon.Delights.dto.MemberBalanceDto;
+import com.example.Afternoon.Delights.dto.MemberDto;
 import com.example.Afternoon.Delights.entity.Member;
-import com.example.Afternoon.Delights.repository.BalanceHistoryRepository;
 import com.example.Afternoon.Delights.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,12 +17,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    @Autowired
-    private BalanceHistoryRepository balanceHistoryRepository;
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberDashBoardDao memberDashBoardDao;
+    private final MemberRepository memberRepository;
 
     public List<Member> getAllMembers(){
         return memberRepository.findAll();
@@ -73,7 +73,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     public Member addMember(String pin, String name, String email, String officialPhoneNumber, String designation, String departments, String unit, Double balance, MultipartFile profileImage) throws IOException {
-        Member member = new Member();
+        Member member = new Member();  // No need to pass memberId
         member.setPin(pin);
         member.setName(name);
         member.setEmail(email);
@@ -94,9 +94,22 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.existsByPin(pin);
     }
 
-
-    public Optional<Member> getMemberByPin(String pin) {
-        return memberRepository.findByPin(pin);
+    @Override
+    public MemberDashBoardStatusDto getMemberDashboardDetails() {
+        MemberDashBoardStatusDto dashboardDetails = new MemberDashBoardStatusDto();
+        dashboardDetails.setTotalMember(memberDashBoardDao.getTotalMembers());
+        dashboardDetails.setActiveMember(memberDashBoardDao.getActiveMembers());
+        dashboardDetails.setInactiveMember(memberDashBoardDao.getInactiveMembers());
+        return dashboardDetails;
     }
+
+    @Override
+    public MemberBalanceDto getMembersWithNegativeBalance() {
+        int totalMembers = memberDashBoardDao.getCountOfNegativeBalanceMembers();
+        List<MemberDto> members = memberDashBoardDao.getMembersWithNegativeBalance();
+        // Return a MemberBalanceDto with both totalMembers and the members list
+        return new MemberBalanceDto(totalMembers, members);
+    }
+
 
 }

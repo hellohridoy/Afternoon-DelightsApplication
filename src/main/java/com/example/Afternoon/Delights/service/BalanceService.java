@@ -1,37 +1,22 @@
 package com.example.Afternoon.Delights.service;
 
-import com.example.Afternoon.Delights.dto.BalanceDTO;
+
+import com.example.Afternoon.Delights.ENUM.BalanceType;
 import com.example.Afternoon.Delights.entity.Balance;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
 public interface BalanceService {
 
-    public List<Balance> getAllBalance();
+    // Create or update a balance entry
+    Balance saveBalance(Balance balance);
 
-    public Balance getBalanceById(Long id);
+    // Retrieve a balance by its ID
+    Optional<Balance> getBalanceById(Long id);
 
-    public Balance addBalance(Balance balance);
+    // Retrieve all balances
+    List<Balance> getAllBalances();
 
-    public Balance updateBalance(Long id,Balance balance);
-
-    public void deleteBalance(Long id);
-
-    public Double getTotalBalance();
-
-    public List<BalanceDTO> getBalanceHistory(String pin);
-
-    private BalanceDTO convertToDTO(Balance balance) {
-        return null;
-    }
-
-    List<BalanceDTO> getAllMemberBalanceHistory();
-
-    public List<Balance> getMembersWithNegativeBalance() ;
-
-    public int getParticipantsCount(Long id) ;
-
-    public Double getAmountPerHead(Long id) ;
-}
+    // Delete a balance by its ID
+    void deleteBalance(Long id);}

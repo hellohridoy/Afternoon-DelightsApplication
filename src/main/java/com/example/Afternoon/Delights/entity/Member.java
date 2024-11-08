@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import org.hibernate.annotations.processing.Pattern;
 
 import java.sql.Timestamp;
 import java.util.List;
+
 @Data
 @Entity
 @Table(name = "members", uniqueConstraints = {@UniqueConstraint(columnNames = "pin")})
@@ -36,6 +36,8 @@ public class Member {
 
     private String unit;
 
+    private Integer activeStatus;
+
     private Timestamp createdAt;
 
     private Timestamp updatedAt;
@@ -45,4 +47,11 @@ public class Member {
     @Lob
     private byte[] profilePicture;
 
+    // One-to-many relationship with Balance
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Balance> balances;
+
+    // One-to-many relationship with DailyMeal
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DailyMeal> meals;
 }

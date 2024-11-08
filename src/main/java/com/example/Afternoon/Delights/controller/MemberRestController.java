@@ -1,13 +1,9 @@
 package com.example.Afternoon.Delights.controller;
 
-import com.example.Afternoon.Delights.entity.BalanceHistory;
-import com.example.Afternoon.Delights.entity.MealHistory;
 import com.example.Afternoon.Delights.entity.Member;
-import com.example.Afternoon.Delights.service.BalanceHistoryService;
-import com.example.Afternoon.Delights.service.MealHistoryService;
 import com.example.Afternoon.Delights.service.MemberService;
 import com.example.Afternoon.Delights.service.MemberServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,36 +18,24 @@ import java.util.stream.Collectors;
 @CrossOrigin(
         origins = {"http://localhost:4200"}
 )
-@RequestMapping("/afternoon-delights/member")
+@RequiredArgsConstructor
 @RestController
-public class MemberController {
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private MemberServiceImpl memberServiceImpl;
+public class MemberRestController {
 
-    @Autowired
-    private BalanceHistoryService balanceHistoryService;
+    private final MemberService memberService;
+    private final MemberServiceImpl memberServiceImpl;
 
-    @Autowired
-    private MealHistoryService mealHistoryService;
-
-    @GetMapping("/isPinUnique/{pin}")
-    public ResponseEntity<Boolean> isPinUnique(@PathVariable String pin) {
-        return ResponseEntity.ok(memberService.isPinUnique(pin));
-    }
-
-    @GetMapping("/all")
+    @GetMapping("/afternoon-delights/members/all-members")
     public List<Member> all() {
         return memberService.getAllMembers();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/afternoon-delights/members/all-members/{id}")
     public Member findById(@PathVariable Long id) {
         return memberService.getMemberById(id);
     }
 
-    @PostMapping("/add-members")
+    @PostMapping("/afternoon-delights/members/all-members")
     public ResponseEntity<Member> addMember(@RequestParam("pin") String pin,
                                             @RequestParam("name") String name,
                                             @RequestParam("email") String email,
@@ -59,9 +43,10 @@ public class MemberController {
                                             @RequestParam("designation") String designation,
                                             @RequestParam("departments") String departments,
                                             @RequestParam("unit") String unit,
-                                            @RequestParam("balance") Double balance,
-                                            @RequestParam("profileImage") MultipartFile profileImage) {
+                                            @RequestParam(value = "balance", required = false) Double balance, // Optional
+                                            @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) { // Optional
         try {
+            // Handling null or missing optional parameters
             Member member = memberService.addMember(pin, name, email, officialPhoneNumber, designation, departments, unit, balance, profileImage);
             return ResponseEntity.ok(member);
         } catch (Exception e) {
@@ -69,18 +54,17 @@ public class MemberController {
         }
     }
 
-
-    @PutMapping("/{id}")
+    @PutMapping("/afternoon-delights/members/all-members/{id}")
     public Member updateMember(@PathVariable Long id, @RequestBody Member member) {
         return memberService.updateMember(id, member);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/afternoon-delights/members/all-members/delete/{id}")
     public void  deleteMember(@PathVariable Long id) {
         memberService.deleteMember(id);
     }
 
-    @GetMapping("/all-members-pins")
+    @GetMapping("/afternoon-delights/members/all-members/all-members-pins")
     public List<Map<String, String>> getAllPins() {
         List<String> pins = memberService.getAllPins();
         List<Map<String, String>> response = pins.stream()
@@ -93,7 +77,7 @@ public class MemberController {
         return response;
     }
 
-    @PostMapping("/{id}/uploadProfilePicture")
+    @PostMapping("/afternoon-delights/members/all-members/{id}/uploadProfilePicture")
     public ResponseEntity<String> uploadProfilePicture(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
             String message = memberServiceImpl.uploadProfilePicture(id, file);
@@ -106,7 +90,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/{id}/profilePicture")
+    @GetMapping("/afternoon-delights/members/all-members/{id}/profilePicture")
     public ResponseEntity<byte[]> getProfilePicture(@PathVariable Long id) {
         byte[] profilePicture = memberServiceImpl.getProfilePicture(id);
         if (profilePicture != null) {
@@ -119,20 +103,4 @@ public class MemberController {
     public List<Member> searchMembers(@RequestParam String keyword) {
         return memberServiceImpl.searchMembers(keyword);
     }
-
-
-
-    @GetMapping("/{id}/meal-history")
-    public ResponseEntity<List<MealHistory>> getMealHistoryForMember(@PathVariable Long id) {
-        try {
-            List<MealHistory> mealHistory = mealHistoryService.getMealHistoryForMember(id);
-            return ResponseEntity.ok(mealHistory);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
-
-
 }

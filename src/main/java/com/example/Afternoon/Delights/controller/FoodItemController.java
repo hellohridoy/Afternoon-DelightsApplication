@@ -52,11 +52,5 @@ public class FoodItemController {
         return response;
     }
 
-    @GetMapping("/cachedTotalCost")
-    public Map<String, Double> getCachedTotalCost(@RequestParam String date) {
-        Double totalAmount = balanceServiceImpl.getCachedTotalCost(date);
-        Map<String, Double> response = new HashMap<>();
-        response.put("totalForDate", totalAmount);
-        return response;
-    }
+
 }

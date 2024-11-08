@@ -1,6 +1,7 @@
 package com.example.Afternoon.Delights.service;
 
-import com.example.Afternoon.Delights.entity.BalanceHistory;
+import com.example.Afternoon.Delights.dto.MemberDashBoardStatusDto;
+import com.example.Afternoon.Delights.dto.MemberBalanceDto;
 import com.example.Afternoon.Delights.entity.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,5 +28,9 @@ public interface MemberService {
 
     public boolean isPinUnique(String pin);
 
+
+    MemberDashBoardStatusDto getMemberDashboardDetails();
+
+    MemberBalanceDto getMembersWithNegativeBalance();
 
 }
