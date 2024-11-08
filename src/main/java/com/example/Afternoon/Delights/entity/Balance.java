@@ -7,15 +7,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
-import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
+
+import java.time.LocalDate;
+
 
 @Entity
 @Data
@@ -36,12 +31,11 @@ public class Balance {
     @Size(max = 4, message = "PIN must be at most 4 characters long")
     private String pin;
 
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     // Many-to-one relationship with Member
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
-
 
 }
