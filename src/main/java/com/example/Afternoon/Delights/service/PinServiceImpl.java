@@ -1,6 +1,9 @@
 package com.example.Afternoon.Delights.service;
 
+import com.example.Afternoon.Delights.dao.PinDao;
+import com.example.Afternoon.Delights.entity.Detail;
 import com.example.Afternoon.Delights.entity.Pin;
+import com.example.Afternoon.Delights.repository.DetailRepository;
 import com.example.Afternoon.Delights.repository.PinRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,22 +15,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PinServiceImpl implements PinService {
 
-    private final PinRepository pinRepository;
+    private final PinDao pinDao;
 
     @Override
     public Pin savePin(Pin pin) {
-        return pinRepository.save(pin);
+        return pinDao.savePin(pin);
     }
 
     @Override
     public List<Pin> getAllPins() {
-        return pinRepository.findAll();
+        return pinDao.getAllPins();
     }
 
     @Override
-    public Pin getPinById(String pin) {
-        Optional<Pin> optionalPin = pinRepository.findById(pin);
-        return optionalPin.orElse(null);
+    public Pin getPinByPin(String pin) {
+        return pinDao.findByPin(pin);
     }
 }
-

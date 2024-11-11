@@ -1,5 +1,7 @@
 package com.example.Afternoon.Delights.controller;
 
+import com.example.Afternoon.Delights.dto.MemberBalanceInfoDto;
+import com.example.Afternoon.Delights.dto.MemberBalanceStatusDto;
 import com.example.Afternoon.Delights.entity.Member;
 import com.example.Afternoon.Delights.service.MemberService;
 import com.example.Afternoon.Delights.service.MemberServiceImpl;
@@ -102,5 +104,15 @@ public class MemberRestController {
     @GetMapping("/search")
     public List<Member> searchMembers(@RequestParam String keyword) {
         return memberServiceImpl.searchMembers(keyword);
+    }
+
+    @GetMapping("/afternoon-delights/members/balance-infos")
+    public MemberBalanceInfoDto getMemberBalanceInfo(@RequestParam(required = false)String searchParams) {
+        return memberServiceImpl.getMemberBalanceInfoDto(searchParams);
+    }
+
+    @GetMapping("/afternoon-delights/member/negative-balance")
+    public List<MemberBalanceStatusDto> getBalanceMembersInDue() {
+        return memberService.getNegativeBalanceMembers();
     }
 }

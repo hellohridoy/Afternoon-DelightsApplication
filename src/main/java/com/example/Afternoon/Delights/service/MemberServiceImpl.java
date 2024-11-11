@@ -1,9 +1,7 @@
 package com.example.Afternoon.Delights.service;
 
 import com.example.Afternoon.Delights.dao.MemberDashBoardDao;
-import com.example.Afternoon.Delights.dto.MemberDashBoardStatusDto;
-import com.example.Afternoon.Delights.dto.MemberBalanceDto;
-import com.example.Afternoon.Delights.dto.MemberDto;
+import com.example.Afternoon.Delights.dto.*;
 import com.example.Afternoon.Delights.entity.Member;
 import com.example.Afternoon.Delights.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +20,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberDashBoardDao memberDashBoardDao;
     private final MemberRepository memberRepository;
+    private final AddressBookService addressBookService;
 
     public List<Member> getAllMembers(){
         return memberRepository.findAll();
@@ -111,5 +110,29 @@ public class MemberServiceImpl implements MemberService {
         return new MemberBalanceDto(totalMembers, members);
     }
 
+    @Override
+    public List<MemberBalanceStatusDto> getNegativeBalanceMembers() {
+        return memberRepository.findNegativeBalanceMembers();
+    }
 
+
+    public MemberBalanceInfoDto getMemberBalanceInfoDto(String searchParams) {
+        MemberBalanceInfoDto dto = new MemberBalanceInfoDto();
+        dto.setTotalMember(memberRepository.findTotalMemberCount().toString());
+        dto.setActiveMember(memberRepository.findActiveMemberCount().toString());
+        dto.setDeActiveMember(memberRepository.findDeActiveMemberCount().toString());
+        dto.setMemberBalanceInPositive(memberRepository.findMemberBalanceInPositive().toString());
+        dto.setMemberBalanceInNagetive(memberRepository.findMemberBalanceInNegative().toString());
+        dto.setMemberBalanceInBelowFiveHundred(memberRepository.findMemberBalanceBelowFiveHundred().toString());
+        dto.setMemberBalanceInOk(memberRepository.findMemberBalanceInOk().toString());
+        // Fetch AddressBookDto based on searchParams (optional)
+//        if (searchParams != null && !searchParams.isEmpty()) {
+//            List<AddressBookDto> addressBookList = addressBookService.findMembersBySearchParams(searchParams);
+//            if (!addressBookList.isEmpty()) {
+//                dto.setAddressBook(new AddressBookDto[]{addressBookList.get(0)}); // Assuming you want to set the first result
+//            }
+//        }
+        dto.setMemberInDue(memberRepository.findNegativeBalanceMembers());
+        return dto;
+    }
 }

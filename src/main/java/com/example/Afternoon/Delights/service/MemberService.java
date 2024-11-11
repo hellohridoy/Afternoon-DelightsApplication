@@ -1,5 +1,6 @@
 package com.example.Afternoon.Delights.service;
 
+import com.example.Afternoon.Delights.dto.MemberBalanceStatusDto;
 import com.example.Afternoon.Delights.dto.MemberDashBoardStatusDto;
 import com.example.Afternoon.Delights.dto.MemberBalanceDto;
 import com.example.Afternoon.Delights.entity.Member;
@@ -33,4 +34,5 @@ public interface MemberService {
 
     MemberBalanceDto getMembersWithNegativeBalance();
 
+    List<MemberBalanceStatusDto> getNegativeBalanceMembers();
 }

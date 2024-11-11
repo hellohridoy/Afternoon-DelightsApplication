@@ -1,11 +1,11 @@
-package com.example.Afternoon.Delights.service;
+package com.example.Afternoon.Delights.dao;
 
 import com.example.Afternoon.Delights.entity.Pin;
 
 import java.util.List;
 
-public interface PinService {
+public interface PinDao {
     Pin savePin(Pin pin);
     List<Pin> getAllPins();
-    Pin getPinByPin(String pin);
+    Pin findByPin(String pin);  // Find employee by PIN
 }

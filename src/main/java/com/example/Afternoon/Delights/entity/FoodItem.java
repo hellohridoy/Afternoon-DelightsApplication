@@ -27,8 +27,6 @@ public class FoodItem {
 
     @Column(name = "date")
     @CreationTimestamp
-    private LocalDate date;  // Changed to LocalDate
-
-    // Getters and setters
+    private LocalDate date;
 }
 

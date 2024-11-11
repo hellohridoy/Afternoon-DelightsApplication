@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class AddressBookRestController {
+
     private final AddressBookService addressBookService;
 
     @GetMapping("/afternoon-delights/member/address-infos")

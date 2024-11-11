@@ -2,7 +2,6 @@ package com.example.Afternoon.Delights.entity;
 
 import com.example.Afternoon.Delights.ENUM.BalanceType;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
