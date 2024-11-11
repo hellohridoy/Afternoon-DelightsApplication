@@ -121,8 +121,8 @@ public class MemberServiceImpl implements MemberService {
         dto.setTotalMember(memberRepository.findTotalMemberCount().toString());
         dto.setActiveMember(memberRepository.findActiveMemberCount().toString());
         dto.setDeActiveMember(memberRepository.findDeActiveMemberCount().toString());
-        dto.setMemberBalanceInPositive(memberRepository.findMemberBalanceInPositive().toString());
-        dto.setMemberBalanceInNagetive(memberRepository.findMemberBalanceInNegative().toString());
+        dto.setMemberBalanceInPlus(memberRepository.findMemberBalanceInPositive().toString());
+        dto.setMemberBalanceInMinus(memberRepository.findMemberBalanceInNegative().toString());
         dto.setMemberBalanceInBelowFiveHundred(memberRepository.findMemberBalanceBelowFiveHundred().toString());
         dto.setMemberBalanceInOk(memberRepository.findMemberBalanceInOk().toString());
         // Fetch AddressBookDto based on searchParams (optional)
