@@ -54,4 +54,15 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "m.addInitialBalance) " +
             "FROM Member m WHERE m.addInitialBalance < 0")
     List<MemberBalanceStatusDto> findNegativeBalanceMembers();
+
+    @Query("SELECT new com.example.Afternoon.Delights.dto.MemberBalanceStatusDto(" +
+            "m.id, " +
+            "m.pin, " +
+            "m.name, " +
+            "m.officialPhoneNumber, " +
+            "m.designation, " +
+            "m.email, " +
+            "m.addInitialBalance) " +
+            "FROM Member m WHERE m.addInitialBalance > 0")
+    List<MemberBalanceStatusDto> findPositiveBalanceMembers();
 }

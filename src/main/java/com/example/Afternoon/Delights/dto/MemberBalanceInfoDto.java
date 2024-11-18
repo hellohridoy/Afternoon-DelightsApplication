@@ -16,4 +16,5 @@ public class MemberBalanceInfoDto {
     private String memberBalanceInBelowFiveHundred;
     private String memberBalanceInOk;
     private List<MemberBalanceStatusDto> memberInDue;
+    private List<MemberBalanceStatusDto> memberInPlus;
 }

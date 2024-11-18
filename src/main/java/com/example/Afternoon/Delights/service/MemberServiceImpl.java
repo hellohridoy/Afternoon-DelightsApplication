@@ -133,6 +133,7 @@ public class MemberServiceImpl implements MemberService {
 //            }
 //        }
         dto.setMemberInDue(memberRepository.findNegativeBalanceMembers());
+        dto.setMemberInPlus(memberRepository.findPositiveBalanceMembers());
         return dto;
     }
 }
