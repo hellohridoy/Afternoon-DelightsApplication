@@ -16,7 +16,16 @@ public class MemberBalanceStatusDto {
     private String email;
     private Double addInitialBalance;
 
-    public MemberBalanceStatusDto(Long id, String pin, String name, String officialPhoneNumber, String designation, String email, Double addInitialBalance) {
+    public MemberBalanceStatusDto
+            (
+                    Long id,
+                    String pin,
+                    String name,
+                    String officialPhoneNumber,
+                    String designation,
+                    String email,
+                    Double addInitialBalance
+            ) {
         this.id = id;
         this.pin = pin;
         this.name = name;
@@ -25,5 +34,4 @@ public class MemberBalanceStatusDto {
         this.email = email;
         this.addInitialBalance = addInitialBalance;
     }
-
 }

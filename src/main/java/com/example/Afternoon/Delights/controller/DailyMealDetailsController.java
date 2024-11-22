@@ -1,7 +1,6 @@
 package com.example.Afternoon.Delights.controller;
 
 import com.example.Afternoon.Delights.dto.DailyMealDetailsDTO;
-import com.example.Afternoon.Delights.entity.UserAuth;
 import com.example.Afternoon.Delights.service.DailyMealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

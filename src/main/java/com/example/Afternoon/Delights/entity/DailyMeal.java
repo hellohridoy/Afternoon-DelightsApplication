@@ -18,6 +18,8 @@ public class DailyMeal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String pin;
+
     private String item;
     private Double price;
     private Double perHeadAmount;

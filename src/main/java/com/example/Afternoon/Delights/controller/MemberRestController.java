@@ -115,4 +115,23 @@ public class MemberRestController {
     public List<MemberBalanceStatusDto> getBalanceMembersInDue() {
         return memberService.getNegativeBalanceMembers();
     }
+
+    @PostMapping("/afternoon-delights/member/add-member-infos")
+    public ResponseEntity<Member> addMember(@RequestBody Member member) {
+        try {
+            // Call the service to add the new member
+            Member savedMember = memberService.addMember(member);
+
+            // Return success response with the saved member
+            return new ResponseEntity<>(savedMember, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            // Handle any exceptions such as duplicate PIN or other errors
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/afternoon-delights/members/member-infos")
+    public Map<String, Object> getMemberHistory(@RequestParam String pin) {
+        return memberServiceImpl.getMemberHistory(pin);
+    }
 }

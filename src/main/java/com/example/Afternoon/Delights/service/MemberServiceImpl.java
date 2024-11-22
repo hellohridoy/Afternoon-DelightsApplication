@@ -2,15 +2,22 @@ package com.example.Afternoon.Delights.service;
 
 import com.example.Afternoon.Delights.dao.MemberDashBoardDao;
 import com.example.Afternoon.Delights.dto.*;
+import com.example.Afternoon.Delights.entity.Balance;
+import com.example.Afternoon.Delights.entity.DailyMeal;
 import com.example.Afternoon.Delights.entity.Member;
+import com.example.Afternoon.Delights.repository.BalanceRepository;
+import com.example.Afternoon.Delights.repository.DailyMealRepository;
 import com.example.Afternoon.Delights.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,6 +27,8 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberDashBoardDao memberDashBoardDao;
     private final MemberRepository memberRepository;
+    private final BalanceRepository balanceRepository;
+    private final DailyMealRepository dailyMealRepository;
     private final AddressBookService addressBookService;
 
     public List<Member> getAllMembers(){
@@ -135,5 +144,52 @@ public class MemberServiceImpl implements MemberService {
         dto.setMemberInDue(memberRepository.findNegativeBalanceMembers());
         dto.setMemberInPlus(memberRepository.findPositiveBalanceMembers());
         return dto;
+
+
+
     }
+
+    // Method to add a new member
+    @Transactional
+    public Member saveMember(Member member) {
+        // Optionally, you can add any validation logic here before saving
+        // For example, check if the PIN already exists
+        if (memberRepository.findByPin(member.getPin()).isPresent()) {
+            throw new RuntimeException("Member with this PIN already exists");
+        }
+
+        // Set the current timestamps (createdAt, updatedAt)
+        member.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
+        member.setUpdatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
+
+        // Save the member to the database
+        return memberRepository.save(member);
+    }
+
+    public Map<String, Object> getMemberHistory(String pin) {
+        // Fetch member details using JPA query
+        Member member = memberRepository.findByPin(pin)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+
+        // Fetch balance history using JPA query
+        List<Balance> balances = balanceRepository.findByPin(pin);
+
+        // Fetch meal history using JPA query
+        List<DailyMeal> meals = dailyMealRepository.findByPin(pin);
+
+        // Construct the response map
+        Map<String, Object> response = new HashMap<>();
+        response.put("member", member);
+
+        // Construct history section
+        Map<String, Object> history = new HashMap<>();
+        history.put("totalMeals", meals.size());
+        history.put("mealHistory", meals);
+        history.put("balanceHistory", balances);
+
+        response.put("history", history);
+
+        return response;
+    }
+
 }
