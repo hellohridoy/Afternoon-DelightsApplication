@@ -21,10 +21,11 @@ public class DailyMeal {
     private String pin;
 
     private String item;
+
     private Double price;
+
     private Double perHeadAmount;
 
-    // List of participants identified by their pins
     @ElementCollection
     @CollectionTable(name = "participant_pins", joinColumns = @JoinColumn(name = "meal_id"))
     @Column(name = "pin")
@@ -39,7 +40,6 @@ public class DailyMeal {
     @UpdateTimestamp
     private LocalDate updatedAt;
 
-    // Many-to-one relationship with Member (who organizes or tracks the meal)
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;

@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @Entity
 @Data
 public class Balance {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

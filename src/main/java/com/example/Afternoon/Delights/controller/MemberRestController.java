@@ -2,6 +2,7 @@ package com.example.Afternoon.Delights.controller;
 
 import com.example.Afternoon.Delights.dto.MemberBalanceInfoDto;
 import com.example.Afternoon.Delights.dto.MemberBalanceStatusDto;
+import com.example.Afternoon.Delights.dto.MemberHistoryDto;
 import com.example.Afternoon.Delights.entity.Member;
 import com.example.Afternoon.Delights.service.MemberService;
 import com.example.Afternoon.Delights.service.MemberServiceImpl;
@@ -130,8 +131,15 @@ public class MemberRestController {
         }
     }
 
-    @GetMapping("/afternoon-delights/members/member-infos")
-    public Map<String, Object> getMemberHistory(@RequestParam String pin) {
-        return memberServiceImpl.getMemberHistory(pin);
+//    @GetMapping("/afternoon-delights/members/member-infos")
+//    public Map<String, Object> getMemberHistory(@RequestParam String pin) {
+//        return memberServiceImpl.getMemberHistory(pin);
+//    }
+
+    @GetMapping("/afternoon-delights/member/{pin}/member-infos")
+    public ResponseEntity<MemberHistoryDto> getMemberContributions(@PathVariable String pin) {
+        MemberHistoryDto response = memberServiceImpl.getMemberContributionsByPin(pin);
+        return ResponseEntity.ok(response);
     }
+
 }

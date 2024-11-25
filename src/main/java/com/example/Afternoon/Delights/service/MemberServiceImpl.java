@@ -8,9 +8,11 @@ import com.example.Afternoon.Delights.entity.Member;
 import com.example.Afternoon.Delights.repository.BalanceRepository;
 import com.example.Afternoon.Delights.repository.DailyMealRepository;
 import com.example.Afternoon.Delights.repository.MemberRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,7 +24,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberDashBoardDao memberDashBoardDao;
@@ -123,6 +125,32 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberBalanceStatusDto> getNegativeBalanceMembers() {
         return memberRepository.findNegativeBalanceMembers();
     }
+
+    public MemberHistoryDto getMemberContributionsByPin(String pin) {
+        // Fetch member details
+        Member member = memberRepository.findByPin(pin)
+                .orElseThrow(() -> new ResourceAccessException("Member not found with PIN: " + pin));
+
+        // Fetch balances
+        List<Balance> balances = balanceRepository.findByPin(pin);
+
+        // Fetch daily meals
+        List<DailyMeal> dailyMeals = dailyMealRepository.findByPin(pin);
+
+        // Assemble response
+        return new MemberHistoryDto(
+                member.getId(),
+                member.getPin(),
+                member.getName(),
+                member.getEmail(),
+                member.getOfficialPhoneNumber(),
+                member.getDepartments(),
+                member.getProfilePicture(),
+                balances,
+                dailyMeals
+        );
+    }
+
 
 
     public MemberBalanceInfoDto getMemberBalanceInfoDto(String searchParams) {
