@@ -36,11 +36,6 @@ public class DailyMealServiceImpl implements DailyMealService {
     public DailyMeal addMeal(DailyMealDetailsDTO dailyMealDetailsDTO) {
         DailyMeal dailyMeal =new DailyMeal();
         dailyMeal.setItem(dailyMealDetailsDTO.getItem());
-        dailyMeal.setPrice(dailyMealDetailsDTO.getPrice());
-        dailyMeal.setPerHeadAmount(dailyMealDetailsDTO.getPerHeadAmount());
-        dailyMeal.setParticipants(dailyMealDetailsDTO.getParticipants().stream()
-                .map(DailyMealDetailsDTO.ParticipantDTO::getPin)
-                .collect(Collectors.toList()));
         dailyMeal.setBalanceType(dailyMealDetailsDTO.getBalanceType());
         dailyMeal.setCreatedAt(LocalDate.now());
         dailyMeal.setUpdatedAt(LocalDate.now());
@@ -59,13 +54,6 @@ public class DailyMealServiceImpl implements DailyMealService {
     @Override
     public void deleteMeal(Long id) {
         dailyMealRepository.deleteById(id);
-    }
-
-    public int getParticipantsCount(Long id) {
-        DailyMeal entity = dailyMealRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
-
-        return entity.getParticipants().size();
     }
 }
 

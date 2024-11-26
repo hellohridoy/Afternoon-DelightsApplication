@@ -13,7 +13,6 @@ import java.util.List;
 public class DailyMealDetailsDTO {
 
     private String item;
-    private List<ParticipantDTO> participants;
     private Double price;
     private Double perHeadAmount;
     private BalanceType balanceType;

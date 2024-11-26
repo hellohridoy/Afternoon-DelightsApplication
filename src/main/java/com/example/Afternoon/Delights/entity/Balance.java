@@ -1,6 +1,7 @@
 package com.example.Afternoon.Delights.entity;
 
 import com.example.Afternoon.Delights.ENUM.BalanceType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -35,6 +36,7 @@ public class Balance {
     // Many-to-one relationship with Member
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
+    @JsonIgnore
     private Member member;
 
 }

@@ -11,4 +11,6 @@ public interface FoodOrderService {
     List<FoodOrder> getOrdersByDate(String date);
 
     Map<String, List<FoodOrder>> getOrdersGroupedByDate();
+
+    FoodOrder updateFoodOrder(Long id, FoodOrder foodOrder); // Add this method signature
 }

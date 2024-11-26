@@ -4,9 +4,11 @@ import com.example.Afternoon.Delights.dao.MemberDashBoardDao;
 import com.example.Afternoon.Delights.dto.*;
 import com.example.Afternoon.Delights.entity.Balance;
 import com.example.Afternoon.Delights.entity.DailyMeal;
+import com.example.Afternoon.Delights.entity.FoodOrder;
 import com.example.Afternoon.Delights.entity.Member;
 import com.example.Afternoon.Delights.repository.BalanceRepository;
 import com.example.Afternoon.Delights.repository.DailyMealRepository;
+import com.example.Afternoon.Delights.repository.FoodOrderRepository;
 import com.example.Afternoon.Delights.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +32,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberDashBoardDao memberDashBoardDao;
     private final MemberRepository memberRepository;
     private final BalanceRepository balanceRepository;
-    private final DailyMealRepository dailyMealRepository;
-    private final AddressBookService addressBookService;
+    private final FoodOrderRepository foodOrderRepository;
 
     public List<Member> getAllMembers(){
         return memberRepository.findAll();
@@ -132,10 +133,10 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new ResourceAccessException("Member not found with PIN: " + pin));
 
         // Fetch balances
-        List<Balance> balances = balanceRepository.findByPin(pin);
+        List<Balance> balances = (List<Balance>) balanceRepository.findByPin(pin);
 
         // Fetch daily meals
-        List<DailyMeal> dailyMeals = dailyMealRepository.findByPin(pin);
+        List<DailyMeal> dailyMeals = (List<DailyMeal>) foodOrderRepository.findByOrderPin(pin);
 
         // Assemble response
         return new MemberHistoryDto(
@@ -200,10 +201,10 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new RuntimeException("Member not found"));
 
         // Fetch balance history using JPA query
-        List<Balance> balances = balanceRepository.findByPin(pin);
+        Balance balances = balanceRepository.findByPin(pin);
 
         // Fetch meal history using JPA query
-        List<DailyMeal> meals = dailyMealRepository.findByPin(pin);
+        List<FoodOrder> meals = (List<FoodOrder>) foodOrderRepository.findAllOrders();
 
         // Construct the response map
         Map<String, Object> response = new HashMap<>();
@@ -218,6 +219,23 @@ public class MemberServiceImpl implements MemberService {
         response.put("history", history);
 
         return response;
+    }
+
+    public FoodOrder updateFoodOrder(FoodOrder foodOrder) {
+        if (foodOrder.getPins() == null || foodOrder.getPins().isEmpty()) {
+            throw new IllegalArgumentException("Pins cannot be empty");
+        }
+
+        double totalCost = foodOrder.getTotalCost();
+        int memberCount = foodOrder.getPins().size();
+        double amountPerMember = totalCost / memberCount;
+
+        Map<String, Double> amountPerMemberMap = foodOrder.getPins().stream()
+                .collect(Collectors.toMap(pin -> pin, pin -> amountPerMember));
+
+        foodOrder.setAmountPerMember(amountPerMemberMap);
+
+        return foodOrderRepository.save(foodOrder);
     }
 
 }

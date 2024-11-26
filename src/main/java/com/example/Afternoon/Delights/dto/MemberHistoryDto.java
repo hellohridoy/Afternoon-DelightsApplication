@@ -64,7 +64,6 @@ public class MemberHistoryDto {
             dto.setDate(dailyMeal.getCreatedAt());
             dto.setItem(dailyMeal.getItem());
             dto.setCost(dailyMeal.getPrice());
-            dto.setIsEating(dailyMeal.getParticipants() != null && !dailyMeal.getParticipants().isEmpty());
             return dto;
         }
     }

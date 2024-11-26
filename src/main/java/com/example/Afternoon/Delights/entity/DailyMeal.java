@@ -1,6 +1,7 @@
 package com.example.Afternoon.Delights.entity;
 
 import com.example.Afternoon.Delights.ENUM.BalanceType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,13 +25,6 @@ public class DailyMeal {
 
     private Double price;
 
-    private Double perHeadAmount;
-
-    @ElementCollection
-    @CollectionTable(name = "participant_pins", joinColumns = @JoinColumn(name = "meal_id"))
-    @Column(name = "pin")
-    private List<String> participants;
-
     @Enumerated(EnumType.STRING)
     private BalanceType balanceType;
 
@@ -42,5 +36,6 @@ public class DailyMeal {
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
+    @JsonBackReference
     private Member member;
 }

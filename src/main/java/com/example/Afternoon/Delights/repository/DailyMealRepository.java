@@ -12,5 +12,4 @@ import java.util.List;
 @Repository
 public interface DailyMealRepository extends JpaRepository<DailyMeal, Long> {
 
-    List<DailyMeal> findByPin(String pin);
 }

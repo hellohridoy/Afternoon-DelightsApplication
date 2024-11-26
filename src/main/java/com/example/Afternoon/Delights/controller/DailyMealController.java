@@ -44,15 +44,5 @@ public class DailyMealController {
         dailyMealService.deleteMeal(id);
     }
 
-    @GetMapping("/{id}/participant-count")
-    public ResponseEntity<Integer> getParticipantCount(@PathVariable Long id) {
-        int count = dailyMealService.getParticipantsCount(id);
-        return ResponseEntity.ok(count);
-    }
 
-    @GetMapping("/{id}/amount-per-head")
-    public ResponseEntity<Double> getAmountPerHead(@PathVariable Long id) {
-        Double amountPerHead = (double) dailyMealService.getParticipantsCount(id);
-        return ResponseEntity.ok(amountPerHead);
-    }
 }

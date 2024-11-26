@@ -13,7 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface BalanceRepository extends JpaRepository<Balance, Long> {
-    List<Balance> findByPin(String pin);
+    Balance findByPin(String pin); // Correct field name    Optional<Balance> findByPinAndMemberId(String pin, Long memberId);
+    void deleteByPinAndMemberId(String pin, Long memberId); // Method to delete balance entry
+
 
 }
 

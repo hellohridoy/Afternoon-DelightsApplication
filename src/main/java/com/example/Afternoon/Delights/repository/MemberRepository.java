@@ -66,4 +66,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "FROM Member m WHERE m.addInitialBalance > 0")
     List<MemberBalanceStatusDto> findPositiveBalanceMembers();
 
+
+    @Query("SELECT m FROM Member m WHERE m.pin = :pin")
+    Optional<Member> findByEmployeePin(@Param("pin") String pin);
+
 }

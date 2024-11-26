@@ -1,5 +1,6 @@
 package com.example.Afternoon.Delights.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -49,9 +50,11 @@ public class Member {
 
     // One-to-many relationship with Balance
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Balance> balances;
 
     // One-to-many relationship with DailyMeal
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<DailyMeal> meals;
 }

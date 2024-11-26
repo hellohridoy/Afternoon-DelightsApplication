@@ -22,5 +22,4 @@ public interface DailyMealService {
 
     public void deleteMeal(Long id);
 
-    int getParticipantsCount(Long id);
 }

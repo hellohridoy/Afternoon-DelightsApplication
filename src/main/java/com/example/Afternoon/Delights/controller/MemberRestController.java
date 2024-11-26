@@ -3,7 +3,9 @@ package com.example.Afternoon.Delights.controller;
 import com.example.Afternoon.Delights.dto.MemberBalanceInfoDto;
 import com.example.Afternoon.Delights.dto.MemberBalanceStatusDto;
 import com.example.Afternoon.Delights.dto.MemberHistoryDto;
+import com.example.Afternoon.Delights.entity.FoodOrder;
 import com.example.Afternoon.Delights.entity.Member;
+import com.example.Afternoon.Delights.service.FoodOrderServiceImpl;
 import com.example.Afternoon.Delights.service.MemberService;
 import com.example.Afternoon.Delights.service.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @CrossOrigin(
         origins = {"http://localhost:4200"}
 )
@@ -27,6 +31,7 @@ public class MemberRestController {
 
     private final MemberService memberService;
     private final MemberServiceImpl memberServiceImpl;
+    private final FoodOrderServiceImpl foodOrderServiceImpl;
 
     @GetMapping("/afternoon-delights/members/all-members")
     public List<Member> all() {
@@ -136,10 +141,22 @@ public class MemberRestController {
 //        return memberServiceImpl.getMemberHistory(pin);
 //    }
 
+
+    /*
+        This api will member all info get by pin
+    */
     @GetMapping("/afternoon-delights/member/{pin}/member-infos")
     public ResponseEntity<MemberHistoryDto> getMemberContributions(@PathVariable String pin) {
         MemberHistoryDto response = memberServiceImpl.getMemberContributionsByPin(pin);
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/member/update/{id}")
+    public ResponseEntity<String> updateFoodOrder(@PathVariable Long id, @RequestBody FoodOrder foodOrder) {
+        foodOrderServiceImpl.updateFoodOrder(id, foodOrder);
+        return ResponseEntity.ok("Member food order updated successfully");
+    }
+
+
 
 }
