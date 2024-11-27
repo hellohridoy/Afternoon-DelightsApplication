@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class FoodOrder {
 
     private String date;
 
-    @Column(name = "order_pin") // Maps to the database column
+    @Column(name = "order_pin")
     private String orderPin;
 
     private Double totalCost;
@@ -29,6 +30,22 @@ public class FoodOrder {
     private List<String> pins;
 
     @ElementCollection
-    private Map<String, Double> amountPerMember; // To store per-member cost breakdown
+    private Map<String, Double> amountPerMember = new HashMap<>();
 
+    /**
+     * Calculates and sets amountPerMember based on totalCost and pins.
+     */
+    @PrePersist
+    @PreUpdate
+    public void calculateAmountPerMember() {
+        if (pins != null && !pins.isEmpty() && totalCost != null) {
+            double splitAmount = totalCost / pins.size();
+            amountPerMember.clear(); // Clear any existing values
+            for (String pin : pins) {
+                amountPerMember.put(pin, splitAmount);
+            }
+        } else {
+            amountPerMember.clear(); // If no pins or totalCost, clear the map
+        }
+    }
 }
