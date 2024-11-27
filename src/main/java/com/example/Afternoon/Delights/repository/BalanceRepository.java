@@ -13,8 +13,16 @@ import java.util.Optional;
 
 @Repository
 public interface BalanceRepository extends JpaRepository<Balance, Long> {
-    Balance findByPin(String pin); // Correct field name    Optional<Balance> findByPinAndMemberId(String pin, Long memberId);
-    void deleteByPinAndMemberId(String pin, Long memberId); // Method to delete balance entry
+    Optional<Balance> findByPin(String pin); // Correct field name    Optional<Balance> findByPinAndMemberId(String pin, Long memberId);
+    void deleteByPinAndMemberId(String pin, Long memberId);
+
+    @Modifying
+    @Query(value = "UPDATE balance " +
+            "SET balance_amount = balance_amount - :amountToDeduct " +
+            "WHERE pin = :pin",
+            nativeQuery = true)
+    int subtractBalanceForPin(@Param("pin") String pin,
+                              @Param("amountToDeduct") Double amountToDeduct);
 
 
 }

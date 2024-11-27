@@ -1,14 +1,18 @@
 package com.example.Afternoon.Delights.controller;
 
 import com.example.Afternoon.Delights.entity.Balance;
+import com.example.Afternoon.Delights.entity.FoodOrder;
 import com.example.Afternoon.Delights.service.BalanceService;
+import com.example.Afternoon.Delights.service.BalanceServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -17,6 +21,7 @@ import java.util.Optional;
 public class BalancedRestController {
 
     private final BalanceService balanceService;
+    private final BalanceServiceImpl balanceServiceImpl;
 
     // Create or update balance
     @PostMapping("/afternoon-delights/balance/all-members")
@@ -49,5 +54,25 @@ public class BalancedRestController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/afternoon-delights/balance/all-members/subtract")
+    public ResponseEntity<Map<String, Object>> subtractBalance(@RequestBody FoodOrder foodOrder) {
+
+        // Extract pins and total cost from the FoodOrder object
+        List<String> pins = foodOrder.getPins();
+        Double totalCost = foodOrder.getTotalCost();
+
+        // Subtract balance for each pin
+        balanceServiceImpl.subtractBalance(pins, totalCost / pins.size());
+
+        // Prepare the response message
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Balance updated for the following pins: " + pins.toString());
+        response.put("amountDeductedPerPin", totalCost / pins.size());
+        response.put("affectedPins", pins);
+
+        // Return the response
+        return ResponseEntity.ok(response);
     }
 }

@@ -42,6 +42,14 @@ public class BalanceServiceImpl implements BalanceService {
         balanceRepository.deleteById(id);
     }
 
+    @Transactional
+    public void subtractBalance(List<String> pins, Double amountToDeduct) {
+        for (String pin : pins) {
+            // Subtract balance for each pin in the list
+            balanceRepository.subtractBalanceForPin(pin, amountToDeduct);
+        }
+    }
+
 }
 
 

@@ -133,10 +133,10 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new ResourceAccessException("Member not found with PIN: " + pin));
 
         // Fetch balances
-        List<Balance> balances = (List<Balance>) balanceRepository.findByPin(pin);
+        Optional<Balance> balances = balanceRepository.findByPin(pin);
 
         // Fetch daily meals
-        List<DailyMeal> dailyMeals = (List<DailyMeal>) foodOrderRepository.findByOrderPin(pin);
+        Optional<FoodOrder> foodOrder = Optional.ofNullable(foodOrderRepository.findByOrderPin(pin));
 
         // Assemble response
         return new MemberHistoryDto(
@@ -146,9 +146,8 @@ public class MemberServiceImpl implements MemberService {
                 member.getEmail(),
                 member.getOfficialPhoneNumber(),
                 member.getDepartments(),
-                member.getProfilePicture(),
-                balances,
-                dailyMeals
+                balances, // Pass as a list
+                foodOrder // Pass as a list
         );
     }
 
@@ -201,7 +200,7 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new RuntimeException("Member not found"));
 
         // Fetch balance history using JPA query
-        Balance balances = balanceRepository.findByPin(pin);
+        Optional<Balance> balances = balanceRepository.findByPin(pin);
 
         // Fetch meal history using JPA query
         List<FoodOrder> meals = (List<FoodOrder>) foodOrderRepository.findAllOrders();

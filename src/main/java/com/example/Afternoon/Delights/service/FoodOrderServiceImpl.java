@@ -61,17 +61,12 @@ public class FoodOrderServiceImpl implements FoodOrderService {
                     throw new IllegalArgumentException("Invalid PIN: " + pin);
                 }
 
-                Balance existingBalance = balanceRepository.findByPin(pin);
-                if (existingBalance == null) {
-                    Balance newBalance = new Balance();
-                    newBalance.setPin(pin);
-                    newBalance.setBalanceAmount(amountPerMember);
-                    newBalance.setBalanceType(BalanceType.ADD); // Adjust as needed
-                    balanceRepository.save(newBalance);
-                } else {
-                    existingBalance.setBalanceAmount(existingBalance.getBalanceAmount() + amountPerMember);
-                    balanceRepository.save(existingBalance);
-                }
+                Optional<Balance> existingBalance = balanceRepository.findByPin(pin);
+                Balance newBalance = new Balance();
+                newBalance.setPin(pin);
+                newBalance.setBalanceAmount(amountPerMember);
+                newBalance.setBalanceType(BalanceType.ADD); // Adjust as needed
+                balanceRepository.save(newBalance);
             }
 
             foodOrder.setAmountPerMember(memberCostMap);

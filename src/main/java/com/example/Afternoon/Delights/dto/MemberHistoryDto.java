@@ -1,7 +1,7 @@
 package com.example.Afternoon.Delights.dto;
 
 import com.example.Afternoon.Delights.entity.Balance;
-import com.example.Afternoon.Delights.entity.DailyMeal;
+import com.example.Afternoon.Delights.entity.FoodOrder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,51 +20,21 @@ public class MemberHistoryDto {
     private String name;
     private String email;
     private String officialPhoneNumber;
-    private String department;
-    private String profilePicture;
-    private List<BalanceDto> balances = new ArrayList<>();
-    private List<DailyMealDto> dailyMeals = new ArrayList<>();
+    private String departments;
+    private Object balances; // Change to List<Balance> if multiple records are expected
+    private Object foodOrder; // Change to List<DailyMeal> if multiple records are expected
 
-    public MemberHistoryDto(Long id, String pin, String name, String email, String officialPhoneNumber, String department, byte[] profilePicture, List<Balance> balances, List<DailyMeal> dailyMeals) {
+    // Constructor
+    public MemberHistoryDto(Long id, String pin, String name, String email,
+                            String officialPhoneNumber, String departments,
+                             Object balances, Object foodOrder) {
         this.id = id;
         this.pin = pin;
         this.name = name;
         this.email = email;
         this.officialPhoneNumber = officialPhoneNumber;
-        this.department = department;
-        this.profilePicture = (profilePicture != null) ? Base64.getEncoder().encodeToString(profilePicture) : null;
-        this.balances = (balances != null) ? balances.stream().map(BalanceDto::from).toList() : new ArrayList<>();
-        this.dailyMeals = (dailyMeals != null) ? dailyMeals.stream().map(DailyMealDto::from).toList() : new ArrayList<>();
-    }
-
-    @Getter
-    @Setter
-    public static class BalanceDto {
-        private LocalDate date;
-        private Double amount;
-
-        public static BalanceDto from(Balance balance) {
-            BalanceDto dto = new BalanceDto();
-            dto.setDate(balance.getCreatedAt());
-            dto.setAmount(balance.getBalanceAmount());
-            return dto;
-        }
-    }
-
-    @Getter
-    @Setter
-    public static class DailyMealDto {
-        private LocalDate date;
-        private String item;
-        private Double cost;
-        private Boolean isEating;
-
-        public static DailyMealDto from(DailyMeal dailyMeal) {
-            DailyMealDto dto = new DailyMealDto();
-            dto.setDate(dailyMeal.getCreatedAt());
-            dto.setItem(dailyMeal.getItem());
-            dto.setCost(dailyMeal.getPrice());
-            return dto;
-        }
+        this.departments = departments;
+        this.balances = balances;
+        this.foodOrder = foodOrder;
     }
 }
